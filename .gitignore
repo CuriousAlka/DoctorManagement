@@ -1,0 +1,47 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+# Virtual Environments
+venv/
+.env/
+.venv/
+
+# Django
+*.log
+*.pot
+*.py[cod]
+__pycache__/
+db.sqlite3
+/media
+/staticfiles
+
+# Pytest
+.cache
+nosetests.xml
+coverage.xml
+htmlcov/
+.pytest_cache/
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Django migrations (optional, include if you don't want to track migrations)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# mypy
+.mypy_cache/
+
+# Coverage reports
+.coverage

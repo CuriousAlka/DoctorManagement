@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Posts List{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 p-6">
+  <div class="max-w-7xl mx-auto bg-white shadow-md rounded-xl p-6">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold text-gray-800">Community Posts</h2>
+      <a href="{% url 'post_create' %}"
+         class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+        + Create New Post
+      </a>
+    </div>
+
+    <!-- Search Bar -->
+    <form method="get" class="flex mb-6">
+      <input type="text" name="q" placeholder="Search by user, title, or keywords..."
+             class="w-full border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-r-lg">
+        Search
+      </button>
+    </form>
+
+    <!-- Posts Table -->
+    <div class="overflow-x-auto">
+      <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">ID</th>
+            <th class="px-4 py-2 text-left">Image</th>
+            <th class="px-4 py-2 text-left">User</th>
+            <th class="px-4 py-2 text-left">Title</th>
+            <th class="px-4 py-2 text-left">Description</th>
+            <th class="px-4 py-2 text-left">Created At</th>
+            <th class="px-4 py-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          {% for post in posts %}
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-2">{{ post.id }}</td>
+            <td class="px-4 py-2">
+              {% if post.image %}
+                <img src="{{ post.image.url }}" alt="Post Image" class="w-10 h-10 rounded-md object-cover">
+              {% else %}
+                <span class="text-gray-400">No Image</span>
+              {% endif %}
+            </td>
+            <td class="px-4 py-2">{{ post.user.username }}</td>
+            <td class="px-4 py-2 font-medium">{{ post.title }}</td>
+            <td class="px-4 py-2 text-gray-600 truncate max-w-xs">{{ post.description|truncatechars:60 }}</td>
+            <td class="px-4 py-2">{{ post.created_at|date:"Y-m-d H:i" }}</td>
+            <td class="px-4 py-2 flex justify-center gap-3">
+              <a href="{% url 'post_view' post.pk %}" class="text-blue-500 hover:text-blue-700" title="View">
+                <i class="fas fa-eye"></i>
+              </a>
+              <a href="{% url 'post_edit' post.pk %}" class="text-yellow-500 hover:text-yellow-700" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              <form action="{% url 'post_delete' post.pk %}" method="POST" class="inline">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 hover:text-red-700" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="7" class="text-center py-6 text-gray-500">No posts found.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- FontAwesome Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{% endblock %}

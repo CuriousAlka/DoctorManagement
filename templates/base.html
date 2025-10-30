@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Doctor Management{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-d+ZsB7zLzG..."
+          crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+
+    <style>
+        body {
+            font-size: 18px; /* overall font scaling */
+        }
+        table {
+            font-size: 17px;
+        }
+        th {
+            font-size: 18px;
+        }
+        h1, h2, h3 {
+            font-size: 22px;
+        }
+        button, a {
+            font-size: 17px !important;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-100">
+
+    <!-- Header -->
+    <header class="text-white py-5 shadow-md text-lg" style="background-color: #046273;">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Doctor Management System</h1>
+            <nav class="flex space-x-6 text-lg">
+                <a href="{% url 'user_list' %}" class="hover:text-gray-300">Users</a>
+                <a href="{% url 'post_list' %}" class="hover:text-gray-300">Posts</a>
+                <a href="{% url 'medication_list' %}" class="hover:text-gray-300">Medications</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-6 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white text-center py-4 border-t border-gray-200">
+        <p class="text-base text-gray-600">© 2025 Doctor Management</p>
+    </footer>
+
+</body>
+</html>

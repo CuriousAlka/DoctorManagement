@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}User Details{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100 py-8">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md p-6">
+    <h2 class="text-xl font-semibold mb-4 text-gray-800">User Details</h2>
+
+    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+    <p><strong>Membership ID:</strong> {{ user.membership_id }}</p>
+    <p><strong>Status:</strong>
+      {% if user.is_active %}
+        <span class="text-green-600 font-semibold">Active</span>
+      {% else %}
+        <span class="text-red-500 font-semibold">Inactive</span>
+      {% endif %}
+    </p>
+
+    <div class="mt-6 flex justify-between">
+      <a href="{% url 'user_update' user.id %}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">Edit</a>
+
+      <a href="{% url 'user_list' %}" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg">Back</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

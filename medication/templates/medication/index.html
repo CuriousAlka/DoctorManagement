@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Medication List{% endblock %}
+
+{% block content %}
+<div class="bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Medication List</h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Dosage</th>
+                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for medication in medications %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-2 text-sm text-gray-600">{{ medication.id }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-800 font-medium">{{ medication.name }}</td>
+                    <td class="px-4 py-2 text-sm text-gray-600">{{ medication.dosage }}</td>
+                    <td class="px-4 py-2 flex gap-2">
+                        <a href="{% url 'medication_detail' medication.id %}"
+                           class="bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded">
+                           View
+                        </a>
+                        <a href="{% url 'medication_edit' medication.id %}"
+                           class="bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium px-3 py-1 rounded">
+                           Edit
+                        </a>
+                        <a href="{% url 'medication_delete' medication.id %}"
+                           class="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="px-4 py-3 text-center text-gray-500 text-sm">
+                        No medications available.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
