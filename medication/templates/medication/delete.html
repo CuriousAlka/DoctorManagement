@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Delete Medication{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-red-50 to-rose-100 py-10 px-4">
+  <div class="max-w-md mx-auto bg-white rounded-2xl shadow-lg p-8 border border-gray-200 text-center">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">🗑️ Delete Medication</h1>
+    <p class="text-gray-600 mb-6">
+      Are you sure you want to delete <strong>{{ medication.name }}</strong>?
+    </p>
+
+    <form method="POST" class="flex justify-center space-x-4">
+      {% csrf_token %}
+      <a href="{% url 'medication_list' %}"
+         class="bg-gray-300 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-400 transition duration-200">
+        Cancel
+      </a>
+      <button type="submit"
+              class="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition duration-200">
+        Delete
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -17,7 +17,7 @@
     <!-- Search -->
     <form method="get" class="flex gap-3 mb-6">
       <input type="text" name="q" value="{{ query|default:'' }}"
-             placeholder="Search by Name, Email or Mobile..."
+             placeholder="Search by Name, Email, Mobile, or Membership ID..."
              class="flex-grow border border-gray-300 rounded-lg px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
       <button type="submit"
               class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-lg shadow-md">
@@ -43,7 +43,7 @@
           {% for user in users %}
           <tr class="hover:bg-gray-50 text-gray-700">
             <td class="border border-gray-200 px-4 py-3 text-center">{{ user.id }}</td>
-            <td class="border border-gray-200 px-4 py-3">{{ user.first_name |capfirst }} {{ user.last_name |capfirst }}</td>
+            <td class="border border-gray-200 px-4 py-3">{{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</td>
             <td class="border border-gray-200 px-4 py-3">{{ user.email }}</td>
             <td class="border border-gray-200 px-4 py-3">{{ user.mobile }}</td>
             <td class="border border-gray-200 px-4 py-3 text-center">{{ user.membership_id }}</td>
@@ -89,8 +89,3 @@
   </div>
 </div>
 {% endblock %}
-
-
-
-
-

@@ -1,51 +1,79 @@
 {% extends 'base.html' %}
-
-{% block title %}Medication List{% endblock %}
+{% block title %}Medications{% endblock %}
 
 {% block content %}
-<div class="bg-white shadow-md rounded-lg p-6">
-    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Medication List</h1>
+<div class="min-h-screen bg-gray-50 p-6">
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
-                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Dosage</th>
-                    <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-100">
-                {% for medication in medications %}
-                <tr class="hover:bg-gray-50">
-                    <td class="px-4 py-2 text-sm text-gray-600">{{ medication.id }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-800 font-medium">{{ medication.name }}</td>
-                    <td class="px-4 py-2 text-sm text-gray-600">{{ medication.dosage }}</td>
-                    <td class="px-4 py-2 flex gap-2">
-                        <a href="{% url 'medication_detail' medication.id %}"
-                           class="bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded">
-                           View
-                        </a>
-                        <a href="{% url 'medication_edit' medication.id %}"
-                           class="bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium px-3 py-1 rounded">
-                           Edit
-                        </a>
-                        <a href="{% url 'medication_delete' medication.id %}"
-                           class="bg-red-500 hover:bg-red-600 text-white text-xs font-medium px-3 py-1 rounded">
-                           Delete
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="px-4 py-3 text-center text-gray-500 text-sm">
-                        No medications available.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+  <!-- Header -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Medications</h2>
+    <a href="{% url 'medication_create' %}"
+       class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+      + Add Medication
+    </a>
+  </div>
+
+  <!-- Search Bar -->
+  <form method="get" class="flex mb-6">
+    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search by name, dosage, or user..."
+           class="w-full border border-gray-300 rounded-l-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 rounded-r-lg">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <!-- Medication Table -->
+  <div class="overflow-x-auto">
+    <table class="min-w-full border border-gray-200 divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left">ID</th>
+          <th class="px-4 py-2 text-left">User</th>
+          <th class="px-4 py-2 text-left">Name</th>
+          <th class="px-4 py-2 text-left">Dosage</th>
+          <th class="px-4 py-2 text-left">Description</th>
+          <th class="px-4 py-2 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        {% for med in medications %}
+        <tr class="hover:bg-gray-50">
+          <td class="px-4 py-2">{{ med.id }}</td>
+          <td class="px-4 py-2">
+            {% if med.user %}
+              {{ med.user.first_name }} {{ med.user.last_name }}
+            {% else %}
+              <span class="text-gray-400">No User</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-2 font-medium">{{ med.name }}</td>
+          <td class="px-4 py-2">{{ med.dosage }}</td>
+          <td class="px-4 py-2 text-gray-600 truncate max-w-xs">{{ med.description|truncatechars:60 }}</td>
+          <td class="px-4 py-2 flex justify-center gap-3">
+            <a href="{% url 'medication_view' med.pk %}" class="text-blue-500 hover:text-blue-700" title="View">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a href="{% url 'medication_edit' med.pk %}" class="text-yellow-500 hover:text-yellow-700" title="Edit">
+              <i class="fas fa-edit"></i>
+            </a>
+            <form action="{% url 'medication_delete' med.pk %}" method="POST" class="inline">
+              {% csrf_token %}
+              <button type="submit" class="text-red-500 hover:text-red-700" title="Delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center py-6 text-gray-500">No medications found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<!-- FontAwesome Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 {% endblock %}

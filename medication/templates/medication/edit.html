@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Edit Medication{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 py-10 px-4">
+  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-lg p-8 border border-gray-200">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">✏️ Edit Medication</h1>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <div>
+        <label class="block text-gray-600 mb-1">Name</label>
+        <input type="text" name="name" value="{{ medication.name }}" required
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500">
+      </div>
+
+      <div>
+        <label class="block text-gray-600 mb-1">Dosage</label>
+        <input type="text" name="dosage" value="{{ medication.dosage }}"
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500">
+      </div>
+
+      <div>
+        <label class="block text-gray-600 mb-1">Description</label>
+        <textarea name="description" rows="4"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500">{{ medication.description }}</textarea>
+      </div>
+
+      <div>
+        <label class="block text-gray-600 mb-1">User</label>
+        <select name="user" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-500">
+          <option value="">-- Select User --</option>
+          {% for user in users %}
+            <option value="{{ user.id }}" {% if medication.user and medication.user.id == user.id %}selected{% endif %}>
+              {{ user.first_name }} {{ user.last_name }}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="flex justify-between mt-6">
+        <a href="{% url 'medication_list' %}" class="text-gray-600 hover:text-gray-800">← Back</a>
+        <button type="submit" class="bg-yellow-500 text-white px-5 py-2 rounded-lg hover:bg-yellow-600">Update</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

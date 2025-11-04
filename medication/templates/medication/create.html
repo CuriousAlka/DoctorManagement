@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Add Medication{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-10 px-4">
+  <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-6 border border-gray-200">
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Add Medication</h2>
+
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Medication Name</label>
+        <input type="text" name="name" required
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Dosage</label>
+        <input type="text" name="dosage"
+               class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Description</label>
+        <textarea name="description" rows="3"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-medium mb-1">Assign User (Optional)</label>
+        <select name="user"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="">-- Select User --</option>
+          {% for user in users %}
+            <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="flex justify-end space-x-3 pt-4">
+        <a href="{% url 'medication_list' %}"
+           class="bg-gray-200 text-gray-800 px-5 py-2 rounded-lg hover:bg-gray-300 transition duration-200">
+          Cancel
+        </a>
+        <button type="submit"
+                class="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg shadow-sm hover:shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-200">
+          Save Medication
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

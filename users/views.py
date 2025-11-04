@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
-from django.db.models import Q, Value
-from django.db.models.functions import Concat
+from django.db.models import Q
 from .models import User
 from .forms import UserForm
 
@@ -11,36 +10,25 @@ def user_list(request):
     query = request.GET.get('q', '')
 
     # Base queryset
-    base_users = User.objects.all().order_by('-id')
+    users = User.objects.all().order_by('-id')
 
-    # 🔹 Filter first (for name + email)
-    # if query:
-    #     base_users = base_users.filter(
-    #         Q(first_name__icontains=query) |
-    #         Q(last_name__icontains=query) |
-    #         Q(email__icontains=query)
-    #     )
-
-    # 🔹 Annotate full name (for combined search like "Eve Brown")
-    users = base_users.annotate(
-        full_name=Concat('first_name', Value(' '), 'last_name')
-    )
-    # print(users)
-    # 🔹 Filter again to support full name match
+    # 🔹 Search filter (by name, email, mobile, membership ID)
     if query:
         users = users.filter(
-            Q(full_name__icontains=query) | Q(email__icontains=query)
+            Q(name__icontains=query) |
+            Q(email__icontains=query) |
+            Q(mobile__icontains=query) |
+            Q(membership_id__icontains=query)
         )
 
-    # 🔹 Pagination (10 per page)
+    # 🔹 Pagination (10 users per page)
     paginator = Paginator(users, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'users/list.html', {
         'users': page_obj,
-        'query': query,
-        'page_obj': page_obj
+        'query': query
     })
 
 
@@ -53,7 +41,10 @@ def user_create(request):
             return redirect('user_list')
     else:
         form = UserForm()
-    return render(request, 'users/user_form.html', {'form': form, 'title': 'Add User'})
+    return render(request, 'users/user_form.html', {
+        'form': form,
+        'title': 'Add User'
+    })
 
 
 # ✅ Update User
@@ -66,7 +57,10 @@ def user_update(request, pk):
             return redirect('user_list')
     else:
         form = UserForm(instance=user)
-    return render(request, 'users/user_form.html', {'form': form, 'title': 'Edit User'})
+    return render(request, 'users/user_form.html', {
+        'form': form,
+        'title': 'Edit User'
+    })
 
 
 # ✅ Delete User
