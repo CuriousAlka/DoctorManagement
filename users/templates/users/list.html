@@ -47,7 +47,24 @@
             <td class="border border-gray-200 px-4 py-3">{{ user.email }}</td>
             <td class="border border-gray-200 px-4 py-3">{{ user.mobile }}</td>
             <td class="border border-gray-200 px-4 py-3 text-center">{{ user.membership_id }}</td>
-            <td class="border border-gray-200 px-4 py-3 text-red-500 font-semibold text-center">{{ user.status }}</td>
+            {% comment %} <td class="border border-gray-200 px-4 py-3 text-red-500 font-semibold text-center">{{ user.status }}</td> {% endcomment %}
+            <td class="px-6 py-4 whitespace-nowrap border text-center">
+              <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
+                  {% if user.status|lower == 'active' %}
+                      bg-green-100 text-green-800
+                  {% elif user.status|lower == 'inactive' %}
+                      bg-red-100 text-red-800
+                  {% elif user.status|lower == 'pending' %}
+                      bg-yellow-100 text-yellow-800
+                  {% elif user.status|lower == 'suspended' %}
+                      bg-gray-100 text-gray-800
+                  {% else %}
+                      bg-blue-100 text-blue-800
+                  {% endif %}">
+                {{ user.status|title }}
+              </span>
+            </td>
+
             <td class="border border-gray-200 px-4 py-3 text-center">
               <a href="{% url 'user_detail' user.id %}" class="text-blue-600 hover:text-blue-800 mx-1 text-xl"><i class="fa fa-eye"></i></a>
               <a href="{% url 'user_update' user.id %}" class="text-yellow-500 hover:text-yellow-600 mx-1 text-xl"><i class="fa fa-pen"></i></a>

@@ -13,6 +13,7 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users_user'
+        
     def __str__(self):
         return self.name
 

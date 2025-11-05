@@ -39,7 +39,8 @@
     <!-- Header -->
     <header class="text-white py-5 shadow-md text-lg" style="background-color: #046273;">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-2xl font-semibold">Doctor Management System</h1>
+            <a href="{% url 'user_list' %}" class="text-6xl font-bold">Doctor Management System</a>
+            {% comment %} <h1 class="text-2xl font-semibold">Doctor Management System</h1> {% endcomment %}
             <nav class="flex space-x-6 text-lg">
                 <a href="{% url 'user_list' %}" class="hover:text-gray-300">Users</a>
                 <a href="{% url 'post_list' %}" class="hover:text-gray-300">Posts</a>
@@ -49,7 +50,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow max-w-7xl mx-auto px-6 py-8">
+    <main class="flex-grow mmx-auto px-6 py-8">
         {% block content %}{% endblock %}
     </main>
 

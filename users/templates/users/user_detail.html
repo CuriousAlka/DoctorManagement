@@ -1,28 +1,83 @@
 {% extends 'base.html' %}
-{% block title %}User Details{% endblock %}
+{% block title %}User Profile - {{ user.first_name }} {{ user.last_name }}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-100 py-8">
-  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md p-6">
-    <h2 class="text-xl font-semibold mb-4 text-gray-800">User Details</h2>
+<!--
+    Defining custom styles here since we can't edit the base.html's Tailwind config.
+    This ensures the custom colors for the header and buttons are applied.
+-->
+<style>
+    .primary-blue { background-color: #337e5eff; } /* Deep Blue for Primary Actions/Header */
+</style>
 
-    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Mobile:</strong> {{ user.mobile }}</p>
-    <p><strong>Membership ID:</strong> {{ user.membership_id }}</p>
-    <p><strong>Status:</strong>
-      {% if user.is_active %}
-        <span class="text-green-600 font-semibold">Active</span>
-      {% else %}
-        <span class="text-red-500 font-semibold">Inactive</span>
-      {% endif %}
-    </p>
+<div class="flex items-center justify-center p-4">
+    <!-- User Detail Card: Increased max-width from max-w-xl to max-w-4xl for a wider, more expansive look -->
+    <div class="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden transform transition duration-500 hover:shadow-3xl">
+        
+        <!-- Header Section -->
+        <div class="primary-blue p-6 text-white flex items-center justify-between rounded-t-xl">
+            <h1 class="text-2xl font-extrabold tracking-tight">User Profile</h1>
+            <!-- Lucide User Icon (inline SVG) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-circle"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
 
-    <div class="mt-6 flex justify-between">
-      <a href="{% url 'user_update' user.id %}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg">Edit</a>
+        <!-- Content Section -->
+        <div class="p-8">
+            <h2 class="text-xl font-bold mb-6 text-gray-800 border-b pb-2">
+                {{ user.first_name }} {{ user.last_name }}
+            </h2>
 
-      <a href="{% url 'user_list' %}" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg">Back</a>
+            <!-- Key-Value Data Display (Definition List) -->
+            <dl class="space-y-4 text-gray-700">
+                
+                <!-- Email -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3">
+                    <dt class="font-medium text-base text-gray-500 w-1/3">Email Address</dt>
+                    <dd class="font-semibold text-lg w-2/3 text-right truncate">{{ user.email }}</dd>
+                </div>
+
+                <!-- Mobile -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3">
+                    <dt class="font-medium text-base text-gray-500 w-1/3">Mobile Number</dt>
+                    <dd class="font-semibold text-lg w-2/3 text-right">{{ user.mobile }}</dd>
+                </div>
+
+                <!-- Membership ID -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3">
+                    <dt class="font-medium text-base text-gray-500 w-1/3">Membership ID</dt>
+                    <dd class="font-semibold text-lg w-2/3 text-right">{{ user.membership_id }}</dd>
+                </div>
+
+                <!-- Status with professional badge styling -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-2">
+                    <dt class="font-medium text-base text-gray-500 w-1/3">Account Status</dt>
+                    <dd class="w-2/3 text-right">
+                        {% if user.is_active %}
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full uppercase shadow-md bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        {% else %}
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full uppercase shadow-md bg-red-100 text-red-800">
+                                Inactive
+                            </span>
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <!-- Action Buttons Footer -->
+        <div class="bg-gray-50 p-6 flex justify-end space-x-4 rounded-b-xl border-t border-gray-200">
+            <!-- Back Button (Secondary/Neutral) -->
+            <a href="{% url 'user_list' %}" class="px-6 py-2 text-base font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition duration-150 ease-in-out shadow-sm">
+                <i class="fas fa-arrow-left mr-2"></i> Back to List
+            </a>
+
+            <!-- Edit Button (Primary/Action Color) -->
+            <a href="{% url 'user_update' user.id %}" class="px-6 py-2 text-base font-medium text-white primary-blue rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-lg transform hover:scale-[1.01]">
+                <i class="fas fa-edit mr-2"></i> Edit Details
+            </a>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
